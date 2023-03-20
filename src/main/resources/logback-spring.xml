@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <turboFilter class="ch.qos.logback.classic.turbo.DuplicateMessageFilter"/>
+    <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
+    <appender class="ch.qos.logback.core.ConsoleAppender" name="CONSOLE_JSON">
+        <encoder class="net.logstash.logback.encoder.LogstashEncoder"/>
+    </appender>
+
+    <appender class="ch.qos.logback.core.ConsoleAppender" name="CONSOLE">
+        <encoder>
+            <pattern>${CONSOLE_LOG_PATTERN}</pattern>
+        </encoder>
+    </appender>
+
+    <root level="INFO">
+        <springProfile name="!local &amp; !docker">
+            <appender-ref ref="CONSOLE_JSON"/>
+        </springProfile>
+
+        <springProfile name="local | docker">
+            <appender-ref ref="CONSOLE"/>
+        </springProfile>
+    </root>
+
+</configuration>
